@@ -136,6 +136,5 @@ public class File extends Applet implements Runnable,KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello world");
 	}
 }
