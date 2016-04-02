@@ -1,41 +1,54 @@
 package snake;
 
+import java.util.ArrayList;
+
 public class Snake {
-	private int  MOVESPEED = 20;
-	
-	private int[] px = {39,39,39,39,39,39,39};
-	private int[] py = {39,39,39,39,39,39,39};
+	private int  MOVESPEED = 30;
+	private int length = 0;
+	private ArrayList<Integer> px = new ArrayList<Integer>();
+	private ArrayList<Integer> py = new ArrayList<Integer>();
 	private char direction = 'd';
+	
+	public Snake(){
+		length = 7;
+		for (int i=0; i<length; i++){
+			px.add(i, 0);
+			py.add(i, 0);
+		}
+	}
 	
 	public void update(){
 		for(int i=6;i>0;i--){
-			py[i]=py[i-1];
-			px[i]=px[i-1];
+			px.set(i, px.get(i-1));
+			py.set(i, py.get(i-1));
 		}
 		System.out.println(direction);
 		switch (direction){
 		case 'd':
-			py[0]+=MOVESPEED;
+			py.set(0, py.get(0) + MOVESPEED);
 			break;
 		case 'u':
-			py[0]-=MOVESPEED;
+			py.set(0, py.get(0) - MOVESPEED);
 			break;
 		case 'r':
-			px[0]+=MOVESPEED;
+			px.set(0, px.get(0) + MOVESPEED);
 			break;
 		case 'l':
-			px[0]-=MOVESPEED;
+			px.set(0, px.get(0) - MOVESPEED);
 			break;
 		}
-		
+	}
+	
+	public int getLength() {
+		return length;
 	}
 
 	public int getPx(int i) {
-		return px[i];
+		return px.get(i);
 	}
 
 	public int getPy(int i) {
-		return py[i];
+		return py.get(i);
 	}
 
 	public char getDirection() {
@@ -43,15 +56,14 @@ public class Snake {
 	}
 
 	public void setPx(int value,int i) {
-		this.px[i] = value;
+		px.set(i, value);
 	}
 
 	public void setPy(int value, int i) {
-		this.py[i] = value;
+		py.set(i, value);
 	}
 
 	public void setDirection(char direction) {
 		this.direction = direction;
 	}
-	
 }

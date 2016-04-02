@@ -7,25 +7,25 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-
 import javax.imageio.ImageIO;
 
 
 public class File extends Applet implements Runnable,KeyListener{
+	private final int screenHeight = 600;
+	private final int screenWidth = 800; 
 	private URL base;
-	private Image body,head,image;
+	private Image body,image;
 	private int a,b;
 	private Graphics second;
 	private BufferedImage img;
 	private Snake snake;
+	
 	@Override
 	public void init() {
-		setSize(800, 480);
+		setSize(screenWidth, screenHeight);
 		setBackground(Color.YELLOW);
 		setFocusable(true);
 		Frame frame = (Frame) this.getParent().getParent();
@@ -38,38 +38,36 @@ public class File extends Applet implements Runnable,KeyListener{
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 		}
-	    body=getImage(base,"data/body.png");
+	    body = getImage(base,"data/body.png");
 	    try {
 			img = ImageIO.read(getClass().getResource("/data/body.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	    
 	}
+	
 	@Override
 	public void start(){
 		snake = new Snake();
 		Thread thread = new Thread(this);
 		thread.start();
 	}
+	
 	@Override
 	public void stop(){
 		super.stop();
 	}
+	
 	@Override
 	public void destroy(){
 		super.destroy();
 	}
+	
 	public void paint(Graphics g){
-		g.drawImage(body,snake.getPx(0),snake.getPy(0),this);
-		g.drawImage(body,snake.getPx(1),snake.getPy(1),this);
-		g.drawImage(body,snake.getPx(2),snake.getPy(2),this);
-		g.drawImage(body,snake.getPx(3),snake.getPy(3),this);
-		g.drawImage(body,snake.getPx(4),snake.getPy(4),this);
-		g.drawImage(body,snake.getPx(5),snake.getPy(5),this);
-		g.drawImage(body,snake.getPx(6),snake.getPy(6),this);
+		for (int i=0; i<snake.getLength(); i++) {
+			g.drawImage(body, snake.getPx(i), snake.getPy(i), this);	
+		}
 	}
 	
 	public void run(){
@@ -91,18 +89,13 @@ public class File extends Applet implements Runnable,KeyListener{
 			image = createImage(this.getWidth(), this.getHeight());
 			second = image.getGraphics();
 		}
-
-
 		second.setColor(getBackground());
 		second.fillRect(0, 0, getWidth(), getHeight());
 		second.setColor(getForeground());
 		paint(second);
-
-
-		g.drawImage(image, 0, 0, this);
-
-		
+		g.drawImage(image, 0, 0, this);		
 	}
+	
 	@Override
     public void keyPressed(KeyEvent e) {
 		System.out.println(e.getKeyCode());
@@ -122,17 +115,14 @@ public class File extends Applet implements Runnable,KeyListener{
         case KeyEvent.VK_RIGHT:
             snake.setDirection('r');
             break;
-
         }
-
     }
-	
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
